@@ -1,9 +1,4 @@
 # ─── IMPORTS ────────────────────────────────────────────────────────────────────
-
-# import math
-# import json
-# import random
-# from os.path import exists
 from bank import *
 from database import *
 from interface import *

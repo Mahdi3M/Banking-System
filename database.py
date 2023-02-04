@@ -78,6 +78,15 @@ class Database:
             print("Account not found.")
 
 
+    def get_user_info(self, cus_id):
+        try:
+            query =  "SELECT * FROM customer WHERE cus_id={}".format(cus_id)
+            self.cur.execute(query)
+            return self.cur.fetchall()
+        except Exception:
+            return None
+
+
     def get_acc_info(self, cus_id):
         try:
             query =  "SELECT * FROM account WHERE cus_id={}".format(cus_id)
@@ -85,3 +94,18 @@ class Database:
             return self.cur.fetchall()
         except Exception:
             return None
+
+
+    def get_tnx_info(self, acc_id):
+        try:
+            query =  "SELECT * FROM transactions WHERE acc_id_from={} OR acc_id_to={}".format(acc_id, acc_id)
+            self.cur.execute(query)
+            return self.cur.fetchall()
+        except Exception:
+            return None
+
+
+    def update_user_info(self, col, data, cus_id):
+        query = "UPDATE customer SET "+col+"='"+data+"' WHERE cus_id={}".format(cus_id)
+        self.cur.execute(query)
+        self.con.commit()

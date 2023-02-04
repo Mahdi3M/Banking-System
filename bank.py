@@ -78,7 +78,23 @@ def perform_transaction(*args):
 
 
 def update_user_info(*args):
-    print("Account Updated")
+    print()
+    print("── Update User Info ─────────────────────────")
+    print()
+    print("--------------------")
+    print("Press ENTER to skip.")
+    print("--------------------")
+    print()
+    sdata = args[0].get_user_info(args[1])
+    index = [1,2,3,5,6]
+    column = ["cus_name", "cus_phone", "cus_email", "user_name", "password"]
+    new_data = ["Full Name: ", "Phone Number: ", "Email: ", "User Name: ", "Password: "]
+    for i in range(len(index)):
+        print(new_data[i], sdata[0][index[i]])
+        data = input("New {}".format(new_data[i]))
+        if not data == "":
+            args[0].update_user_info(column[i], data, args[1])
+        print()
     return args[1]
 
 
@@ -98,10 +114,10 @@ def search_account_info(*args):
     sdata = args[0].get_acc_info(args[1])
     if sdata:
         n = 1
-        print("{:<5}{:<15} {:<20} {:<15} {:<10}".format("Sr.","Account ID", "Account Name", "Date Created", "Balance"))
-        print("{:<5}{:<15} {:<20} {:<15} {:<10}".format("---","----------", "------------", "------------", "-------"))
+        print("{:<5}{:<15}{:<20}{:<15}{:<10}".format("Sr.","Account ID", "Account Name", "Date Created", "Balance"))
+        print("{:<5}{:<15}{:<20}{:<15}{:<10}".format("---","----------", "------------", "------------", "-------"))
         for s in sdata:
-            print("{:<5}{:<15} {:<20} {:<15} {:<10}".format(n, s[0], s[2], s[3], s[4]))
+            print("{:<5}{:<15}{:<20}{:<15}{:<10}".format(n, s[0], s[2], s[3], s[4]))
             n = n+1
     else:
         print("No account found.")
@@ -109,7 +125,22 @@ def search_account_info(*args):
 
 
 def view_transaction_history(*args):
-    print("Customer List:")
+    print()
+    print("── Transaction History ──────────────────────")
+    print()
+    acc_no = input("Account Number: ")
+    print()
+    sdata = args[0].get_tnx_info(acc_no)
+    if sdata:
+        n = 1
+        print("{:<5}{:<20}{:<15}{:<15}{:<10}".format("Sr.","Transaction ID", "Date", "Type", "Amount"))
+        print("{:<5}{:<20}{:<15}{:<15}{:<10}".format("---","--------------", "----------", "---------", "---------"))
+        for s in sdata:
+            tnx_type = "Sent" if s[3] == int(acc_no) else "Received"
+            print("{:<5}{:<20}{:<15}{:<15}{:<10}".format(n, s[0], s[1], tnx_type, s[2]))
+            n = n+1
+    else:
+        print("No account found.")
     return args[1]
 
 
