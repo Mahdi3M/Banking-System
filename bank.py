@@ -3,22 +3,30 @@ from datetime import datetime
 from database import *
 
 
-def generate_new_customer_id():
+def generate_new_id(prefix):
     result = ""
     for i in range(6):
         random_number = random.randint(1,9)
         result += str(random_number)
-    return int(result)
+    return int(prefix + result)
 
 
 def register(*args):
-    cus_id = generate_new_customer_id()
-    print(cus_id)
+    print()
+    print("── Register──────────────────────────────────")
+    print()
+    cus_id = generate_new_id("")
     cus_name = input("Full Name: ")
     cus_phone = input("Phone Number: ")
     cus_email = input("Email: ")
     date_became_cus = datetime.today().strftime('%d-%m-%Y')
-    user_name = input("User Name: ")
+    not_done = True
+    while not_done:
+        user_name = input("User Name: ")
+        if user_name == "":
+            print("\nUser Name cannot be balnk.\n")
+        else:
+            not_done = args[0].check_user_names(user_name)
     password = input("Password: ")
     args[0].insert_cus(cus_id, cus_name, cus_phone, cus_email, date_became_cus, user_name, password)
     return None
@@ -43,23 +51,15 @@ def exit_system(*args):
     quit()
 
 
-def generate_new_account_number():
-    result = ""
-    for i in range(6):
-        random_number = random.randint(1,9)
-        result += str(random_number)
-    return int("1014" + result)
-
-
 def create_account(*args):
     print()
     print("── Creating a new user ──────────────────────")
     print()
-    acc_id = generate_new_account_number()
+    acc_id = generate_new_id("1014")
     cus_id = args[1]
     acc_name = input("Account Name: ")
     date_open = datetime.today().strftime('%d-%m-%Y')
-    balance = float(input("Balance: "))
+    balance = input("Balance: ")
     args[0].insert_acc(acc_id, cus_id, acc_name, date_open, balance)
     return args[1]
 
@@ -68,11 +68,11 @@ def perform_transaction(*args):
     print()
     print("── Requesting Transaction ───────────────────")
     print()
-    tnx_id = int("123"+ str(generate_new_customer_id()))
+    tnx_id = generate_new_id("103")
     tnx_date = datetime.today().strftime('%d-%m-%Y')
-    sender = int(input("Sender's Account Number: "))
-    receiver = int(input("Recipient's Account Number: "))
-    amount = float(input("Transaction Amount: "))
+    sender = input("Sender's Account Number: ")
+    receiver = input("Recipient's Account Number: ")
+    amount = input("Transaction Amount: ")
     args[0].perform_tnx(tnx_id, tnx_date, sender, receiver, amount)
     return args[1]
 

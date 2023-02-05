@@ -1,4 +1,4 @@
-# ─── IMPORTS ────────────────────────────────────────────────────────────────────
+# ─── IMPORTS ─────────────────────────────────────────────────────────────────
 from bank import *
 from database import *
 from interface import *
@@ -6,7 +6,7 @@ from interface import *
 
 # ─── MAIN ────────────────────────────────────────────────────────────────────
 if __name__ == '__main__':
-    mydb = Database("bank")
+    mydb = Database("bank.db")
     logged_cus_id = None
     while True:
         page, choice = display_menu() if logged_cus_id else display_login_menu()
